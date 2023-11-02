@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils/styles.dart';
 
 class BookInfo extends StatelessWidget {
-  const BookInfo({
+  const BookInfo({super.key,
     required this.infoKey,
     required this.value,
   });
@@ -17,21 +17,14 @@ class BookInfo extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              infoKey,
-              style: Styles.keyStyle
-            ),
+            Text(infoKey, style: Styles.keyStyle),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 16
-              ),
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),
-        const SizedBox(
-          height: 8
-        )
+        const SizedBox(height: 8)
       ],
     );
   }
