@@ -1,4 +1,3 @@
-import 'package:book_listing_app/screens/home_screen.dart';
 import 'package:book_listing_app/utils/styles.dart';
 import 'package:flutter/material.dart';
 import '../model/books_model.dart';
@@ -43,7 +42,7 @@ class BookScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
+                          const Column(
                             children: [
                               Text('Rating', style: Styles.keyStyle),
                               SizedBox(height: 7),

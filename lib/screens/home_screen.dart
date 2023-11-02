@@ -90,13 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 onChanged: filterBooks,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-
                   hintText: 'Search...',
                   hintStyle: const TextStyle(color: Colors.black),
                   prefixIcon: const Icon(Icons.search, color: Colors.black),
                   contentPadding:
                       const EdgeInsets.only(left: 12, right: 12, top: 15),
-
                   filled: true,
                   fillColor: Colors.grey[200],
                 ),
@@ -113,8 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, // 2 items per row
-                              childAspectRatio:
-                                  0.5,
+                              childAspectRatio: 0.5,
                             ),
                             itemCount: filteredBooks!.length,
                             itemBuilder: (context, index) {
@@ -181,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 7,),
+                                    const SizedBox(height: 7),
                                     const Row(
                                       children: [
                                         RatingStars(),
@@ -189,12 +186,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text('(88)'),
                                       ],
                                     ),
-                                    const SizedBox(height: 7,),
+                                    const SizedBox(height: 7),
                                     Text(
                                       '\$${booksData.price}',
                                       style: const TextStyle(
-                                        fontWeight: FontWeight.bold
-                                      ),
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),

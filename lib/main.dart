@@ -1,4 +1,5 @@
-import 'package:book_listing_app/screens/home_screen.dart';
+
+import 'package:book_listing_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,9 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
