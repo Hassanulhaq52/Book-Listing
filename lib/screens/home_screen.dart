@@ -116,6 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Data>? filteredBooks;
   TextEditingController searchController = TextEditingController();
   bool isLoading = true;
+  List<bool> isFavorite = [];
 
   @override
   void initState() {
@@ -132,6 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
         books = booksModel.data!;
         filteredBooks = List.from(books!);
         isLoading = false;
+        // isFavorite = List.generate(books!.length, (index) => false);
+        isFavorite = List.generate(books!.length, (index) => index % 2 == 0);
       });
     }
   }
@@ -172,14 +175,29 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: searchController,
-              onChanged: filterBooks,
-              decoration: const InputDecoration(
-                labelText: 'Search by title or author',
-                border: OutlineInputBorder(),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: TextField(
+
+                controller: searchController,
+                onChanged: filterBooks,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Search',
+                  hintStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold
+                  ),
+                  prefixIcon: Icon(Icons.search,color: Colors.black
+                    ,),
+                  contentPadding: EdgeInsets.all(12.0),
+
+                  filled: true,
+                  fillColor: Colors.grey[200], // Grey background color
+                ),
               ),
             ),
+
             const SizedBox(height: 16.0),
             isLoading
                 ? const Expanded(
@@ -214,10 +232,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Stack(
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.circular(15.0),
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
                                           child: SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.41,
-                                            height: MediaQuery.of(context).size.height * 0.3,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.41,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.3,
                                             child: Image.network(
                                               booksData.imageLink!,
                                               fit: BoxFit.fill,
@@ -225,16 +250,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Positioned(
-                                          top: 8.0, // Adjust the top position of the container
-                                          right: 8.0, // Adjust the right position of the container
+                                          top:
+                                              8.0, // Adjust the top position of the container
+                                          right:
+                                              8.0, // Adjust the right position of the container
                                           child: Container(
                                             padding: EdgeInsets.all(8.0),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius: BorderRadius.circular(20.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
                                             ),
-                                            child: const Icon(
-                                              Icons.favorite_border, // You can change this to your heart icon
+                                            child: Icon(
+                                              isFavorite[index]
+                                                  ? Icons.favorite
+                                                  : Icons
+                                                      .favorite_border, // You can change this to your heart icon
                                               color: Colors.red,
                                               size: 24.0,
                                             ),
@@ -251,30 +282,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const Row(
+                                    Row(
                                       children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.orangeAccent,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.orangeAccent,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.orangeAccent,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.orangeAccent,
-                                        ),
-                                        Icon(
-                                          Icons.star_border,
-                                          color: Colors.orangeAccent,
-                                        ),
+                                        RatingStars(),
+                                        SizedBox(width: 10,),
                                         Text(
-                                          '(88)',
+                                          '(88)'
                                         ),
                                       ],
                                     ),
@@ -293,6 +306,45 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class RatingStars extends StatelessWidget {
+  const RatingStars({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        StarIcon(),
+        StarIcon(),
+        StarIcon(),
+        StarIcon(),
+        Icon(
+          Icons.star,
+          color: Colors.grey.shade400,
+          size: 20
+        ),
+
+      ],
+    );
+  }
+}
+
+class StarIcon extends StatelessWidget {
+  const StarIcon({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.star,
+      color: Colors.orangeAccent,
+      size: 20,
     );
   }
 }
