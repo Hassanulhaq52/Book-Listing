@@ -1,3 +1,4 @@
+import 'package:book_listing_app/screens/home_screen.dart';
 import 'package:book_listing_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: SplashScreen(),
+      home: HomeScreen(),
     );
   }
 }

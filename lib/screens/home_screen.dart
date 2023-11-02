@@ -97,7 +97,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 
 import '../model/books_model.dart';
@@ -143,7 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
         String title = book.title?.toLowerCase() ?? '';
         String author = book.author?.toLowerCase() ?? '';
         String lowercaseQuery = query.toLowerCase();
-        return title.contains(lowercaseQuery) || author.contains(lowercaseQuery);
+        return title.contains(lowercaseQuery) ||
+            author.contains(lowercaseQuery);
       }).toList();
     });
   }
@@ -175,101 +175,121 @@ class _HomeScreenState extends State<HomeScreen> {
             TextField(
               controller: searchController,
               onChanged: filterBooks,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Search by title or author',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16.0),
             isLoading
-                ? Expanded(child: Center(child: CircularProgressIndicator()))
+                ? const Expanded(
+                    child: Center(child: CircularProgressIndicator()))
                 : Expanded(
-                child: filteredBooks!.isEmpty
-                    ? Center(child: Text('No results found.'))
-                    : GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // 2 items per row
-                    childAspectRatio: 0.8, // You can adjust the aspect ratio as needed
-                  ),
-                  itemCount: filteredBooks!.length,
-                  itemBuilder: (context, index) {
-                    final booksData = filteredBooks![index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return BookScreen(bookData: booksData);
-                            },
-                          ),
-                        );
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            // width: double.infinity,
-                            // height: 200, // You can adjust the item height as needed
-                            child: Image.network(
-                              booksData.imageLink!,
-                              fit: BoxFit.contain, // Ensure the entire picture is shown without cropping
+                    child: filteredBooks!.isEmpty
+                        ? const Center(child: Text('No results found.'))
+                        : GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, // 2 items per row
+                              childAspectRatio:
+                                  0.5, // You can adjust the aspect ratio as needed
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  booksData.title!,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Row(
+                            itemCount: filteredBooks!.length,
+                            itemBuilder: (context, index) {
+                              final booksData = filteredBooks![index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return BookScreen(bookData: booksData);
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
+                                    Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(15.0),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.41,
+                                            height: MediaQuery.of(context).size.height * 0.3,
+                                            child: Image.network(
+                                              booksData.imageLink!,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 8.0, // Adjust the top position of the container
+                                          right: 8.0, // Adjust the right position of the container
+                                          child: Container(
+                                            padding: EdgeInsets.all(8.0),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(20.0),
+                                            ),
+                                            child: const Icon(
+                                              Icons.favorite_border, // You can change this to your heart icon
+                                              color: Colors.red,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
+
+                                    SizedBox(height: 8.0),
+                                    // Adjust the spacing between image and text
+                                    Text(
+                                      booksData.title!,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
+                                    const Row(
+                                      children: [
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                        Icon(
+                                          Icons.star_border,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                        Text(
+                                          '(88)',
+                                        ),
+                                      ],
                                     ),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                                    Icon(
-                                      Icons.star_border,
-                                      color: Colors.yellow,
+                                    Text(
+                                      '\$${booksData.price}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  '\$${booksData.price}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                )
-
-
-
-
-            ),
+                  ),
           ],
         ),
       ),
@@ -277,8 +297,173 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-
-
+// import 'package:flutter/material.dart';
+//
+// import '../model/books_model.dart';
+// import '../services/books_service.dart';
+// import 'book_screen.dart';
+//
+// class HomeScreen extends StatefulWidget {
+//   HomeScreen({Key? key}) : super(key: key);
+//
+//   @override
+//   _HomeScreenState createState() => _HomeScreenState();
+// }
+//
+// class _HomeScreenState extends State<HomeScreen> {
+//   BooksService booksService = BooksService();
+//   List<Data>? books;
+//   List<Data>? filteredBooks;
+//   TextEditingController searchController = TextEditingController();
+//   bool isLoading = true;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     filteredBooks = [];
+//     books = [];
+//     fetchBooks();
+//   }
+//
+//   void fetchBooks() async {
+//     BooksModel? booksModel = await booksService.getBooksData();
+//     if (booksModel != null && booksModel.data != null) {
+//       setState(() {
+//         books = booksModel.data!;
+//         filteredBooks = List.from(books!);
+//         isLoading = false;
+//       });
+//     }
+//   }
+//
+//   void filterBooks(String query) {
+//     setState(() {
+//       filteredBooks = books!.where((book) {
+//         String title = book.title?.toLowerCase() ?? '';
+//         String author = book.author?.toLowerCase() ?? '';
+//         String lowercaseQuery = query.toLowerCase();
+//         return title.contains(lowercaseQuery) || author.contains(lowercaseQuery);
+//       }).toList();
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: AppBar(
+//         backgroundColor: Colors.white,
+//         elevation: 0.0,
+//         title: Text(
+//           'Hi Nick',
+//           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+//         ),
+//         actions: const [
+//           Padding(
+//             padding: EdgeInsets.only(right: 20),
+//             child: CircleAvatar(
+//               backgroundImage: AssetImage('images/profile.png'),
+//             ),
+//           ),
+//         ],
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           children: [
+//             TextField(
+//               controller: searchController,
+//               onChanged: filterBooks,
+//               decoration: const InputDecoration(
+//                 labelText: 'Search by title or author',
+//                 border: OutlineInputBorder(),
+//               ),
+//             ),
+//             const SizedBox(height: 16.0),
+//             isLoading
+//                 ? const Expanded(child: Center(child: CircularProgressIndicator()))
+//                 : Expanded(
+//                 child: filteredBooks!.isEmpty
+//                     ? const Center(child: Text('No results found.'))
+//                     : GridView.builder(
+//                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//                     crossAxisCount: 2, // 2 items per row
+//                     childAspectRatio: 0.8, // You can adjust the aspect ratio as needed
+//                   ),
+//                   itemCount: filteredBooks!.length,
+//                   itemBuilder: (context, index) {
+//                     final booksData = filteredBooks![index];
+//                     return GestureDetector(
+//                       onTap: () {
+//                         Navigator.push(
+//                           context,
+//                           MaterialPageRoute(
+//                             builder: (context) {
+//                               return BookScreen(bookData: booksData);
+//                             },
+//                           ),
+//                         );
+//                       },
+//                       child: Column(
+//                         // crossAxisAlignment: CrossAxisAlignment.start,
+//                         // mainAxisAlignment: MainAxisAlignment.start,
+//                         children: [
+//                           Image.network(
+//                             booksData.imageLink!,
+//                             fit: BoxFit.contain, // Ensure the entire picture is shown without cropping
+//                           ),
+//                           Text(
+//                             booksData.title!,
+//                             style: TextStyle(
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                           Row(
+//                             children: [
+//                               Icon(
+//                                 Icons.star,
+//                                 color: Colors.yellow,
+//                               ),
+//                               Icon(
+//                                 Icons.star,
+//                                 color: Colors.yellow,
+//                               ),
+//                               Icon(
+//                                 Icons.star,
+//                                 color: Colors.yellow,
+//                               ),
+//                               Icon(
+//                                 Icons.star,
+//                                 color: Colors.yellow,
+//                               ),
+//                               Icon(
+//                                 Icons.star_border,
+//                                 color: Colors.yellow,
+//                               ),
+//                             ],
+//                           ),
+//                           Text(
+//                             '\$${booksData.price}',
+//                             style: TextStyle(
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     );
+//                   },
+//                 )
+//
+//
+//
+//
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // import 'package:flutter/material.dart';
 // import 'package:book_listing/model/books_model.dart';
